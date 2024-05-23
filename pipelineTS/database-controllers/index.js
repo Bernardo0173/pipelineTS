@@ -6,7 +6,7 @@ const mysqlController = require('./mysqlController');
 const dynamoController = require('./dynamoController');
 
 const app = express();
-const port = 3000;
+const port = 8085;
 
 app.use(bodyParser.json());
 
