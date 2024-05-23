@@ -4,13 +4,10 @@ const AWS = require('aws-sdk');
 const router = express.Router();
 
 AWS.config.update({
-    region: 'us-east-1',
-    accessKeyId: 'ASIAYJCKTTDFIHHK43WH',
-    secretAccessKey: 'uuBM8Q8G33M7IsdzkUtapTU6pZv/xLF4bL8ZYMcz'
 });
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const tableName = 'Videojuegos';
+const tableName = 'videojuegos';
 
 router.post('/videojuegos', (req, res) => {
     const { videojuegoId, nombre, genero, precio } = req.body;

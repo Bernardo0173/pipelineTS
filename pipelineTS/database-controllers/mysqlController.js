@@ -4,10 +4,10 @@ const mysql = require('mysql');
 const router = express.Router();
 
 const db = mysql.createConnection({
-    host: 'instancia-db-g1.chp6txp4xi8d.us-east-1.rds.amazonaws.com',
+    host: '',
     port: '3306',
     user: 'admin',
-    password: 'Password1234',
+    password: '',
     database: 'pipelinets'
 });
 
