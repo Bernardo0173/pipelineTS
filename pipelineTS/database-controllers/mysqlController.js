@@ -31,7 +31,8 @@ router.post('/productos', (req, res) => {
     });
 });
 
-router.get('/productos', (req, res) => {
+// Nueva ruta para consultar productos
+router.get('/getproductos', (req, res) => {
     const query = 'SELECT * FROM productos';
     db.query(query, (err, results) => {
         if (err) {

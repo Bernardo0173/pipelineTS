@@ -1,4 +1,3 @@
-// dynamoController.js
 const express = require('express');
 const AWS = require('aws-sdk');
 
@@ -33,7 +32,8 @@ router.post('/videojuegos', (req, res) => {
     });
 });
 
-router.get('/videojuegos', (req, res) => {
+// Nueva ruta para consultar videojuegos
+router.get('/getvideojuegos', (req, res) => {
     const params = {
         TableName: tableName
     };
