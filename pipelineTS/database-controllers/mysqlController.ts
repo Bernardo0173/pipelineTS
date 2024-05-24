@@ -1,28 +1,12 @@
-import express, { Request, Response, Router } from 'express';
-import mysql, { Connection, MysqlError } from 'mysql';
+import { Router, Request, Response } from 'express';
+import mysql from 'mysql';
+import { dbConfig } from './config/dbConfig';
 
-const router: Router = express.Router();
+const router = Router();
 
-// Tipado para la configuración de la conexión
-interface DbConfig {
-    host: string;
-    port: number;
-    user: string;
-    password: string;
-    database: string;
-}
+const db = mysql.createConnection(dbConfig);
 
-const dbConfig: DbConfig = {
-    host: '',
-    port: 3306,
-    user: 'admin',
-    password: '',
-    database: 'pipelinets'
-};
-
-const db: Connection = mysql.createConnection(dbConfig);
-
-db.connect((err: MysqlError | null) => {
+db.connect(err => {
     if (err) {
         console.error('Error connecting to MySQL:', err);
     } else {
@@ -30,17 +14,10 @@ db.connect((err: MysqlError | null) => {
     }
 });
 
-// Definición de los tipos para el cuerpo de la solicitud
-interface ProductoRequestBody {
-    nombre: string;
-    precio: number;
-    cantidad_en_stock: number;
-}
-
 router.post('/productos', (req: Request, res: Response) => {
-    const { nombre, precio, cantidad_en_stock }: ProductoRequestBody = req.body;
-    const query: string = 'INSERT INTO productos (nombre, precio, cantidad_en_stock) VALUES (?, ?, ?)';
-    db.query(query, [nombre, precio, cantidad_en_stock], (err: MysqlError | null, result) => {
+    const { nombre, precio, cantidad_en_stock } = req.body;
+    const query = 'INSERT INTO productos (nombre, precio, cantidad_en_stock) VALUES (?, ?, ?)';
+    db.query(query, [nombre, precio, cantidad_en_stock], (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -50,8 +27,8 @@ router.post('/productos', (req: Request, res: Response) => {
 });
 
 router.get('/getproductos', (req: Request, res: Response) => {
-    const query: string = 'SELECT * FROM productos';
-    db.query(query, (err: MysqlError | null, results: any[]) => {
+    const query = 'SELECT * FROM productos';
+    db.query(query, (err, results) => {
         if (err) {
             res.status(500).send(err);
         } else {

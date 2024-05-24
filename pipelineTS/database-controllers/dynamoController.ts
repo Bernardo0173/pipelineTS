@@ -1,26 +1,20 @@
-import express, { Request, Response, Router } from 'express';
+import { Router, Request, Response } from 'express';
 import AWS from 'aws-sdk';
 
-const router: Router = express.Router();
+const router = Router();
 
-// Actualizar la configuración de AWS si es necesario
 AWS.config.update({
-    // Ejemplo: region: 'us-west-2'
+    region: 'us-east-1',
+    accessKeyId: 'your-access-key-id',
+    secretAccessKey: 'your-secret-access-key',
+    sessionToken: 'your-session-token'  // Añadir si se usan credenciales temporales
 });
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const tableName: string = 'videojuegos';
-
-// Definición de los tipos para el cuerpo de la solicitud
-interface VideojuegoRequestBody {
-    videojuegoId: string;
-    nombre: string;
-    genero: string;
-    precio: number;
-}
+const tableName = 'Videojuegos';
 
 router.post('/videojuegos', (req: Request, res: Response) => {
-    const { videojuegoId, nombre, genero, precio }: VideojuegoRequestBody = req.body;
+    const { videojuegoId, nombre, genero, precio } = req.body;
     const params = {
         TableName: tableName,
         Item: {
